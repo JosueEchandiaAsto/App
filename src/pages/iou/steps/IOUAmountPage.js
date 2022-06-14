@@ -2,6 +2,7 @@ import React from 'react';
 import {
     View,
     InteractionManager,
+    AppState,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import {withOnyx} from 'react-native-onyx';
@@ -54,6 +55,7 @@ const defaultProps = {
 };
 
 class IOUAmountPage extends React.Component {
+    
     constructor(props) {
         super(props);
 
@@ -65,11 +67,13 @@ class IOUAmountPage extends React.Component {
 
         this.state = {
             amount: props.selectedAmount,
+            appState: AppState.currentState,
         };
     }
 
     componentDidMount() {
         this.focusTextInput();
+        this.addAppStateSubscription();
     }
 
     componentDidUpdate(prevProps) {
@@ -78,6 +82,10 @@ class IOUAmountPage extends React.Component {
         }
 
         this.focusTextInput();
+    }
+
+    componentWillUnmount(){
+        this.appStateSubscription.remove();
     }
 
     /**
@@ -94,6 +102,25 @@ class IOUAmountPage extends React.Component {
 
             this.textInput.focus();
         });
+    }
+
+    /**
+     * Add EventListener of AppState
+     */
+    addAppStateSubscription(){
+        this.appStateSubscription = AppState.addEventListener(
+            "change",
+            nextAppState => {
+              if (
+                this.state.appState.match(/inactive|background/) &&
+                nextAppState === "active"
+              ) {
+                //App has come to the foreground!
+                this.focusTextInput();
+              }
+              this.setState({ appState: nextAppState });
+            },
+          );
     }
 
     /**
