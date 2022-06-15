@@ -101,7 +101,7 @@ const ReportActionItemFragment = (props) => {
             return props.fragment.html !== props.fragment.text
                 ? (
                     <RenderHTML
-                        html={`<comment>${props.fragment.html + (props.fragment.isEdited ? '<edited></edited>' : '')}</comment>`}
+                        html={`<comment>${Str.replaceAll(props.fragment.html, '<br /><blockquote>', '<blockquote>') + (props.fragment.isEdited ? '<edited></edited>' : '')}</comment>`}
                     />
                 ) : (
                     <Text
