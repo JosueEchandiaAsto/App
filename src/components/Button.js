@@ -199,7 +199,7 @@ class Button extends Component {
 
         if (this.props.icon) {
             return (
-                <View style={[styles.justifyContentBetween, styles.flexRow]}>
+                <View style={[styles.justifyContentBetween, styles.flexRow, styles.pointerEventsNone]}>
                     <View style={[styles.alignItemsCenter, styles.flexRow]}>
                         <View style={[
                             styles.mr1,
