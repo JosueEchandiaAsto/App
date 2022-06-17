@@ -51,7 +51,7 @@ const ImageRenderer = (props) => {
     return imagePreviewModalDisabled ? (
         <ThumbnailImage
             previewSourceURL={previewSource}
-            style={styles.webViewStyles.tagStyles.img}
+            style={[styles.webViewStyles.tagStyles.img, styles.opacityImageLoading]}
             isAuthTokenRequired={isAttachment}
             imageWidth={imageWidth}
             imageHeight={imageHeight}

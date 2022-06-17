@@ -323,7 +323,9 @@ const styles = {
     opacity0: {
         opacity: 0,
     },
-
+    opacityImageLoading: {
+        opacity: 0.6,
+    },
     opacity1: {
         opacity: 1,
     },
