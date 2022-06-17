@@ -299,6 +299,15 @@ function hasExpensifyEmails(emails) {
 }
 
 /**
+ * Returns true if the session email is the only participant
+ * @param {Array} emails
+ * @returns {Boolean}
+ */
+ function sessionEmailIsTheOnlyParticipant(participants) {
+    return _.intersection(participants, [sessionEmail]).length == 1;
+}
+
+/**
  * Whether the time row should be shown for a report.
  * @param {Array<Object>} personalDetails
  * @param {Object} report
@@ -310,6 +319,7 @@ function canShowReportRecipientLocalTime(personalDetails, report) {
     const reportRecipient = personalDetails[reportParticipants[0]];
     const reportRecipientTimezone = lodashGet(reportRecipient, 'timezone', CONST.DEFAULT_TIME_ZONE);
     return !hasExpensifyEmails(reportParticipants)
+        && !sessionEmailIsTheOnlyParticipant(reportParticipants)
         && !hasMultipleParticipants
         && reportRecipient
         && reportRecipientTimezone
