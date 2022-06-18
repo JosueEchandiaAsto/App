@@ -339,6 +339,8 @@ function invite(logins, welcomeNote, policyID) {
     // Optimistically add the user to the policy
     Onyx.merge(key, policy);
 
+    Onyx.set(ONYXKEYS.IS_LOADING_INVITE_TO_WORKSPACE, true);
+
     // Make the API call to merge the login into the policy
     DeprecatedAPI.Policy_Employees_Merge({
         employees: JSON.stringify(_.map(logins, login => ({email: login}))),
@@ -367,7 +369,8 @@ function invite(logins, welcomeNote, policyID) {
             }
 
             Onyx.set(key, policyDataWithoutLogin);
-        });
+        })
+        .finally(() => Onyx.set(ONYXKEYS.IS_LOADING_INVITE_TO_WORKSPACE, false));
 }
 
 /**

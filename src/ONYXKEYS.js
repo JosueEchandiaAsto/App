@@ -174,6 +174,9 @@ export default {
     IS_LOADING_CREATE_POLICY_ROOM: 'isLoadingCratePolicyRoom',
 
     // Are we loading the rename policy room command
+    IS_LOADING_INVITE_TO_WORKSPACE: 'isLoadingInviteToWorkspace',
+
+    // Are we loading the rename policy room command
     IS_LOADING_RENAME_POLICY_ROOM: 'isLoadingRenamePolicyRoom',
 
     // Is Keyboard shortcuts modal open?
