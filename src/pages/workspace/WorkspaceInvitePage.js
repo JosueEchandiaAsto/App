@@ -51,11 +51,17 @@ const propTypes = {
         }),
     }).isRequired,
 
+    /** Are we loading the invite command */
+    isLoadingInviteToWorkspace: PropTypes.bool,
+
     ...fullPolicyPropTypes,
     ...withLocalizePropTypes,
 };
 
-const defaultProps = fullPolicyDefaultProps;
+const defaultProps = {
+    isLoadingInviteToWorkspace: false,
+    ...fullPolicyDefaultProps,
+};
 
 class WorkspaceInvitePage extends React.Component {
     constructor(props) {
@@ -271,6 +277,7 @@ class WorkspaceInvitePage extends React.Component {
                                     selectedOptions={this.state.selectedOptions}
                                     value={this.state.searchValue}
                                     onSelectRow={this.toggleOption}
+                                    isDisabled={this.props.isLoadingInviteToWorkspace}
                                     onChangeText={(searchValue = '') => {
                                         const {
                                             personalDetails,
@@ -313,7 +320,7 @@ class WorkspaceInvitePage extends React.Component {
                                 />
                             </View>
                             <FormAlertWithSubmitButton
-                                isDisabled={!this.state.selectedOptions.length}
+                                isDisabled={!this.state.selectedOptions.length || this.props.isLoadingInviteToWorkspace}
                                 isAlertVisible={this.getShouldShowAlertPrompt()}
                                 buttonText={this.props.translate('common.invite')}
                                 onSubmit={this.inviteUser}
@@ -360,6 +367,9 @@ export default compose(
         },
         betas: {
             key: ONYXKEYS.BETAS,
+        },
+        isLoadingInviteToWorkspace: {
+            key: ONYXKEYS.IS_LOADING_INVITE_TO_WORKSPACE,
         },
     }),
 )(WorkspaceInvitePage);
