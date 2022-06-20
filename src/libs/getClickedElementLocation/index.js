@@ -5,7 +5,7 @@
  * @returns {Object}
  */
 function getClickedElementLocation(nativeEvent) {
-    return nativeEvent.target.getBoundingClientRect();
+    return nativeEvent.currentTarget.getBoundingClientRect();
 }
 
 export default getClickedElementLocation;
