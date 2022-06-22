@@ -268,7 +268,7 @@ class BaseTextInput extends Component {
                                         maxLength={this.props.maxLength}
                                         onFocus={this.onFocus}
                                         onBlur={this.onBlur}
-                                        onChangeText={this.setValue}
+                                        onChangeText={_ => this.setValue}
                                         secureTextEntry={this.state.passwordHidden}
                                         onPressOut={this.props.onPress}
                                         showSoftInputOnFocus={!this.props.disableKeyboard}

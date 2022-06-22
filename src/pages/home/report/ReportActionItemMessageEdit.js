@@ -151,7 +151,7 @@ class ReportActionItemMessageEdit extends React.Component {
                 this.props.action,
                 false,
                 this.deleteDraft,
-                () => InteractionManager.runAfterInteractions(() => this.textInput.focus()),
+                () => this.focus(),
             );
             return;
         }
@@ -172,6 +172,31 @@ class ReportActionItemMessageEdit extends React.Component {
             },
         }));
         this.updateDraft(newComment);
+    }
+
+
+    /**
+     * Focus the composer text input
+     * @param {Boolean} [shouldelay=false] Impose delay before focusing the composer
+     * @memberof ReportActionCompose
+     */
+     focus(shouldelay = false) {
+        // There could be other animations running while we trigger manual focus.
+        // This prevents focus from making those animations janky.
+        InteractionManager.runAfterInteractions(() => {
+            if (!this.textInput) {
+                return;
+            }
+            if (!shouldelay) {
+                this.textInput.focus();
+            } else {
+                // Keyboard is not opened after Emoji Picker is closed
+                // SetTimeout is used as a workaround
+                // https://github.com/react-native-modal/react-native-modal/issues/114
+                // We carefully choose a delay. 100ms is found enough for keyboard to open.
+                setTimeout(() => this.textInput.focus(), 100);
+            }
+        });
     }
 
     /**
@@ -226,7 +251,7 @@ class ReportActionItemMessageEdit extends React.Component {
                     <View style={styles.editChatItemEmojiWrapper}>
                         <EmojiPickerButton
                             isDisabled={shouldDisableEmojiPicker}
-                            onModalHide={() => InteractionManager.runAfterInteractions(() => this.textInput.focus())}
+                            onModalHide={() => this.focus(true)}
                             onEmojiSelected={this.addEmojiToTextBox}
                         />
                     </View>
