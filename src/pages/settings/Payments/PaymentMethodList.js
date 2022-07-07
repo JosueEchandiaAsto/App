@@ -17,7 +17,6 @@ import bankAccountPropTypes from '../../../components/bankAccountPropTypes';
 import * as PaymentUtils from '../../../libs/PaymentUtils';
 
 const MENU_ITEM = 'menuItem';
-const BUTTON = 'button';
 
 const propTypes = {
     /** What to do when a menu item is pressed */
@@ -151,23 +150,6 @@ class PaymentMethodList extends Component {
             });
         }
 
-        if (!this.props.shouldShowAddPaymentMethodButton) {
-            return combinedPaymentMethods;
-        }
-
-        combinedPaymentMethods.push({
-            type: BUTTON,
-            text: this.props.translate('paymentMethodList.addPaymentMethod'),
-            icon: Expensicons.CreditCard,
-            style: [styles.mh4],
-            iconStyles: [styles.mr4],
-            onPress: e => this.props.onPress(e),
-            isDisabled: this.props.isLoadingPayments,
-            shouldShowRightIcon: true,
-            success: true,
-            key: 'addPaymentMethodButton',
-        });
-
         return combinedPaymentMethods;
     }
 
@@ -208,21 +190,6 @@ class PaymentMethodList extends Component {
                 />
             );
         }
-        if (item.type === BUTTON) {
-            return (
-                <Button
-                    text={item.text}
-                    icon={item.icon}
-                    onPress={item.onPress}
-                    isDisabled={item.isDisabled}
-                    style={item.style}
-                    iconStyles={item.iconStyles}
-                    success={item.success}
-                    shouldShowRightIcon={item.shouldShowRightIcon}
-                    extraLarge
-                />
-            );
-        }
 
         return (
             <Text
@@ -235,11 +202,29 @@ class PaymentMethodList extends Component {
 
     render() {
         return (
-            <FlatList
-                data={this.createPaymentMethodList()}
-                renderItem={this.renderItem}
-                keyExtractor={item => item.key}
-            />
+            <>
+                <FlatList
+                    bounces={false}
+                    data={this.createPaymentMethodList()}
+                    renderItem={this.renderItem}
+                    keyExtractor={item => item.key}
+                />
+                {
+                    this.props.shouldShowAddPaymentMethodButton
+                    && (
+                        <Button
+                            text={this.props.translate('paymentMethodList.addPaymentMethod')}
+                            icon={Expensicons.CreditCard}
+                            onPress={e => this.props.onPress(e)}
+                            isDisabled={this.props.isLoadingPayments}
+                            style={[styles.mb4, styles.mh4]}
+                            success
+                            shouldShowRightIcon
+                            extraLarge
+                        />
+                    )
+                }
+            </>
         );
     }
 }

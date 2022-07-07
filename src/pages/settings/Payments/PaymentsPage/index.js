@@ -2,7 +2,7 @@ import React from 'react';
 import BasePaymentsPage from './BasePaymentsPage';
 
 const PaymentsPage = () => (
-    <BasePaymentsPage shouldListenForResize />
+    <BasePaymentsPage />
 );
 
 PaymentsPage.displayName = 'PaymentsPage';
